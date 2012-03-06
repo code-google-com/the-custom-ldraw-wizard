@@ -22,12 +22,18 @@ Var lsynth
 Var stickgen
 Var l3p
 Var Comp
+Var Comment
+Var Pov31
+Var Pov35
+Var Pov36
+Var Pov64
 Function Page1
   ReserveFile "Page1.ini"
   !insertmacro MUI_INSTALLOPTIONS_EXTRACT "Page1.ini"
   !insertmacro MUI_INSTALLOPTIONS_DISPLAY "Page1.ini"
   !insertmacro MUI_INSTALLOPTIONS_READ $Name "Page1.ini" "Field 3" "State"
   !insertmacro MUI_INSTALLOPTIONS_READ $Comp "Page1.ini" "Field 5" "State"
+  !insertmacro MUI_INSTALLOPTIONS_READ $Comment "Page1.ini" "Field 7" "State"
 FunctionEnd
 
 Function Page2
@@ -52,7 +58,10 @@ Function Page3
    ReserveFile "Page3.ini"
    !insertmacro MUI_INSTALLOPTIONS_EXTRACT "Page3.ini"
    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "Page3.ini"
-
+   !insertmacro MUI_INSTALLOPTIONS_READ $Pov31 "Page3.ini" "Field 2" "State"
+   !insertmacro MUI_INSTALLOPTIONS_READ $Pov35 "Page3.ini" "Field 3" "State"
+   !insertmacro MUI_INSTALLOPTIONS_READ $Pov36 "Page3.ini" "Field 4" "State"
+   !insertmacro MUI_INSTALLOPTIONS_READ $Pov64 "Page3.ini" "Field 5" "State"
 FunctionEnd
 
 Section
@@ -60,6 +69,7 @@ Section
 FileOpen $1 "head.nsh" w
    FileWrite $1 "!define PACKAGE_NAME $\"$Name$\""
    FileWrite $1 "$\r$\n!define COMPANY $\"$Comp$\""
+   FileWrite $1 "$\r$\n!define COMMENT $\"$Comment$\""
 FileClose $1
 FileOpen $0 "features.nsh" w
    ${Switch} $mlcad
@@ -122,6 +132,35 @@ ${Switch} $stickgen
 ${Switch} $l3p
       ${Case} '1'
          FileWrite $0 "$\r$\n!insertmacro l3p"
+
+      ${break}
+   ${EndSwitch}
+   
+   
+${Switch} $Pov31
+      ${Case} '1'
+         FileWrite $0 "$\r$\n!insertmacro pov-31"
+
+      ${break}
+   ${EndSwitch}
+   
+${Switch} $Pov35
+      ${Case} '1'
+         FileWrite $0 "$\r$\n!insertmacro pov-35"
+
+      ${break}
+   ${EndSwitch}
+   
+${Switch} $Pov36
+      ${Case} '1'
+         FileWrite $0 "$\r$\n!insertmacro pov-36"
+
+      ${break}
+   ${EndSwitch}
+   
+${Switch} $Pov64
+      ${Case} '1'
+         FileWrite $0 "$\r$\n!insertmacro pov-36-64"
 
       ${break}
    ${EndSwitch}
