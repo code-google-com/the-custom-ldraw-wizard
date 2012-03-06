@@ -1,12 +1,13 @@
 /* This code is free software. That means you can redistribute and change it under the terms of the GNU GPL, but there is NO WARRANTY
 not even for MERCHANTABILITY or FITNESS for a PARTICULAR PURPOSE. */
 SetCompressor "lzma"
-!define PRODUCT_NAME "Custom LDraw Pack"
+!include "head.nsh"
+!define PRODUCT_NAME "${PACKAGE_NAME}"
 !define PRODUCT_VERSION "1.0"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
+!define LDR_EXT "MLCAD.exe"
 
-!include "head.nsh"
 !include "MUI.nsh"
 !include "ldraw.nsh"
 !include "POV-Ray.nsh"
@@ -16,17 +17,14 @@ SetCompressor "lzma"
 !endif
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ABORTWARNING_TEXT "Are you sure you want to quit the installation of your Custom LDraw Pack?"
+!define MUI_ABORTWARNING_TEXT "Are you sure you want to quit the installation of ${PACKAGE_NAME}?"
 ;!define MUI_ICON "..\icons\happy.ico"
 ;!define MUI_UNICON "..\icons\sad.ico"
-!define MUI_WELCOMEPAGE_TITLE "Thank you for ordering your custom LDraw pack!"
-!define MUI_WELCOMEPAGE_TEXT "This wizard will install your custom LDraw pack for you.\r\n\r\nIt is recommended that you close all other programs before continuing.\r\n\r\nRemember that non CA Parts are not included but can be obtained at LDraw.org\r\n\r\nClick Next to continue."
-!define MUI_FINISHPAGE_TEXT "Your Custom LDraw Pack has been installed on your computer.\r\n\r\nClick Finish to close this wizard."
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
 ; Directory page
-!define MUI_PAGE_HEADER_SUBTEXT "Choose the directory to install your custom LDraw Package"
+!define MUI_PAGE_HEADER_SUBTEXT "Choose the directory to install ${PACKAGE_NAME}"
 !insertmacro MUI_PAGE_DIRECTORY
 ; Instfiles page
 !insertmacro MUI_PAGE_INSTFILES
@@ -42,21 +40,22 @@ SetCompressor "lzma"
 
 ; MUI end ------
 Name "${PRODUCT_NAME}"
-OutFile "..\${THREELET}ldr.exe"
+OutFile "${PACKAGE_NAME}.exe"
 InstallDir "$PROGRAMFILES\LDraw"
 ShowInstDetails hide
 ShowUnInstDetails hide
 BrandingText "The Custom LDraw Wizard"
-Dirtext "Setup will install your Custom LDraw Pack to the following folder. To install to a different folder, click Browse and select another folder. Click install to start the installation."
-Caption "Custom LDraw Pack Setup"
-
+VIProductVersion "1.0.0.0"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "ProductName" "${PRODUCT_NAME}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "Comments" "${COMMENT}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "CompanyName" "${COMPANY}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} "FileDescription" "${PRODUCT_NAME}"
 
 Section "MainSection" SEC01
 SetOutPath "$INSTDIR"
 !insertmacro parts
 !include "features.nsh"
 
-${POV-Ray}
 SectionEnd
 
 Section -AdditionalIcons
@@ -72,16 +71,17 @@ Section -Post
   WriteRegStr ${PRODUCT_UNINST_ROOT_KEY} "${PRODUCT_UNINST_KEY}" "DisplayVersion" "${PRODUCT_VERSION}"
   ${RegisterExtension} "$INSTDIR\${LDR_EXT}" ".ldr" "LDraw Project"
   ${RegisterExtension} "$INSTDIR\${LDR_EXT}" ".mpd" "LDraw Project"
+  WriteRegStr HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment" "LDRAWDIR" '$INSTDIR'
 SectionEnd
 
 
 Function un.onUninstSuccess
   HideWindow
-    MessageBox MB_ICONINFORMATION|MB_OK "Your custom LDraw pack was successfully removed from your computer."
+    MessageBox MB_ICONINFORMATION|MB_OK "${PACKAGE_NAME} was successfully removed from your computer."
 FunctionEnd
 
 Function un.onInit
-  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove your custom LDraw pack?" IDYES +2
+  MessageBox MB_ICONQUESTION|MB_YESNO|MB_DEFBUTTON2 "Are you sure you want to completely remove ${PACKAGE_NAME}?" IDYES +2
   Abort
 FunctionEnd
 
