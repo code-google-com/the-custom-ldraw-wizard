@@ -1,3 +1,6 @@
+/* This code is free software. That means you can redistribute and change it under the terms of the GNU GPL, but there is NO WARRANTY
+not even for MERCHANTABILITY or FITNESS for a PARTICULAR PURPOSE. */
+
 !include "MUI.nsh"
 !include "LogicLib.nsh"
 

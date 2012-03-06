@@ -1,5 +1,5 @@
-/* Custom LDraw package template script THIS IS CLOSED SOURCE CODE.
-To the maker, make sure to define POV-Ray version and THREELET.*/
+/* This code is free software. That means you can redistribute and change it under the terms of the GNU GPL, but there is NO WARRANTY
+not even for MERCHANTABILITY or FITNESS for a PARTICULAR PURPOSE. */
 SetCompressor "lzma"
 !define PRODUCT_NAME "Custom LDraw Pack"
 !define PRODUCT_VERSION "1.0"
