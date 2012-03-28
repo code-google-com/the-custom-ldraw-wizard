@@ -17,8 +17,8 @@ SetCompressor lzma
 
 ; MUI Settings
 !define MUI_ABORTWARNING
-!define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
-!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall.ico"
+!define MUI_ICON "..\icons\happy.ico"
+!define MUI_UNICON "..\icons\sad.ico"
 
 ; Welcome page
 !insertmacro MUI_PAGE_WELCOME
@@ -52,6 +52,7 @@ var ICONS_GROUP
 ; MUI end ------
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
+
 OutFile "CLW_Setup_0.3.exe"
 InstallDir "$PROGRAMFILES\The Custom LDraw Wizard"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
