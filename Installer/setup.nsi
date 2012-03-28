@@ -62,14 +62,22 @@ Section "MainSection" SEC01
   SetOutPath "$INSTDIR\bin"
   SetOverwrite on
   File "..\CLPG.exe"
-  IfFileExists "$PROGRAMFILES\NSIS\NSIS.exe" 0 +2
-  NSISdl::download "http://sourceforge.net/projects/nsis/files/NSIS 2/2.46/nsis-2.46-setup.exe" "localfile.exe"
-  
+  IfFileExists "$PROGRAMFILES\NSIS\NSIS.exe" +3 0
+  NSISdl::download "http://the-custom-ldraw-wizard.googlecode.com/svn/tags/0.3/download-files/nsis-2.46-setup.exe" "nsis-2.46-setup.exe"
+  ExecWait "$INSTDIR\bin\nsis-2.46-setup.exe"
+  Delete "$INSTDIR\bin\nsis-2.46-setup.exe"
+  FileOpen $0 "$PROGRAMFILES\NSIS\nsisconf.nsh" w
+  FileWrite $0 "!define ENVDIR $\"$INSTDIR\programs$\""
+  FileClose $0
   SetOutPath "$PROGRAMFILES\NSIS\Include"
   File "..\include-files\unparts.nsh"
   File "..\include-files\POV-Ray.nsh"
   File "..\include-files\LDraw.nsh"
-
+  SetOutPath "$INSTDIR\programs"
+  NSISdl::download "http://the-custom-ldraw-wizard.googlecode.com/svn/tags/0.3/download-files/programs.7z" "programs.7z"
+  Nsis7z::ExtractWithDetails "programs.7z" "Extracting Programs %s..."
+  SetOutPath "$INSTDIR\template"
+  File "..\template\template.nsi"
 ; Shortcuts
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
   CreateDirectory "$SMPROGRAMS\$ICONS_GROUP"
