@@ -53,7 +53,7 @@ var ICONS_GROUP
 
 Name "${PRODUCT_NAME} ${PRODUCT_VERSION}"
 
-OutFile "CLW_Setup_0.3.exe"
+OutFile "CLW_Setup.exe"
 InstallDir "$PROGRAMFILES\The Custom LDraw Wizard"
 InstallDirRegKey HKLM "${PRODUCT_DIR_REGKEY}" ""
 ShowInstDetails show
@@ -74,6 +74,8 @@ Section "MainSection" SEC01
   File "..\include-files\unparts.nsh"
   File "..\include-files\POV-Ray.nsh"
   File "..\include-files\LDraw.nsh"
+  SetOutPath "$PROGRAMFILES\Plugins"
+  NSISdl::download "http://the-custom-ldraw-wizard.googlecode.com/svn/tags/0.3/download-files/Nsis7z.dll" "Nsis7z.dll"
   SetOutPath "$INSTDIR\programs"
   NSISdl::download "http://the-custom-ldraw-wizard.googlecode.com/svn/tags/0.3/download-files/programs.7z" "programs.7z"
   Nsis7z::ExtractWithDetails "programs.7z" "Extracting Programs %s..."
@@ -85,6 +87,7 @@ Section "MainSection" SEC01
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\The Custom LDraw Wizard.lnk" "$INSTDIR\bin\CLPG.exe"
   CreateShortCut "$DESKTOP\The Custom LDraw Wizard.lnk" "$INSTDIR\bin\CLPG.exe"
   !insertmacro MUI_STARTMENU_WRITE_END
+  SetOutPath "$INSTDIR"
 SectionEnd
 
 Section -AdditionalIcons
