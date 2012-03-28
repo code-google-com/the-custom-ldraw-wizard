@@ -55,7 +55,7 @@ SetCompressor "lzma"
 
 ; MUI end ------
 Name "${PRODUCT_NAME}"
-OutFile "${PACKAGE_NAME}.exe"
+
 InstallDir "$PROGRAMFILES\LDraw"
 ShowInstDetails hide
 ShowUnInstDetails hide

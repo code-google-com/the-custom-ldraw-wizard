@@ -18,14 +18,21 @@
 
 !include "MUI.nsh"
 !include "LogicLib.nsh"
-
+!define MUI_ICON "icons\happy.ico"
 Outfile "CLPG.exe"
 InstallButtonText "Generate"
 Page Custom Page1
+LangString PAGE1_TITLE ${LANG_ENGLISH} "Package Info."
+LangString PAGE1_SUBTITLE ${LANG_ENGLISH} "Please enter information about your package."
+LangString PAGE2_TITLE ${LANG_ENGLISH} "Applications."
+LangString PAGE2_SUBTITLE ${LANG_ENGLISH} "Please select what applications this package will install."
+LangString PAGE3_TITLE ${LANG_ENGLISH} "POV-Ray version."
+LangString PAGE3_SUBTITLE ${LANG_ENGLISH} "Please select please select which version (if any) to install with this package."
 Page Custom Page2 Page2Leave
 Page Custom Page3
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_LANGUAGE "English"
+
 Var Name
 Var mlcad
 Var leocad
@@ -44,6 +51,7 @@ Var Pov36
 Var Pov64
 Function Page1
   ReserveFile "Page1.ini"
+  !insertmacro MUI_HEADER_TEXT "$(PAGE1_TITLE)" "$(PAGE1_SUBTITLE)"
   !insertmacro MUI_INSTALLOPTIONS_EXTRACT "Page1.ini"
   !insertmacro MUI_INSTALLOPTIONS_DISPLAY "Page1.ini"
   !insertmacro MUI_INSTALLOPTIONS_READ $Name "Page1.ini" "Field 3" "State"
@@ -52,6 +60,7 @@ Function Page1
 FunctionEnd
 
 Function Page2
+   !insertmacro MUI_HEADER_TEXT "$(PAGE2_TITLE)" "$(PAGE2_SUBTITLE)"
    ReserveFile "Page2.ini"
    !insertmacro MUI_INSTALLOPTIONS_EXTRACT "Page2.ini"
    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "Page2.ini"
@@ -70,6 +79,7 @@ Function Page2Leave
 FunctionEnd
 
 Function Page3
+   !insertmacro MUI_HEADER_TEXT "$(PAGE3_TITLE)" "$(PAGE3_SUBTITLE)"
    ReserveFile "Page3.ini"
    !insertmacro MUI_INSTALLOPTIONS_EXTRACT "Page3.ini"
    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "Page3.ini"
@@ -81,12 +91,13 @@ FunctionEnd
 
 Section
 
-FileOpen $1 "head.nsh" w
+FileOpen $1 "..\template\head.nsh" w
    FileWrite $1 "!define PACKAGE_NAME $\"$Name$\""
    FileWrite $1 "$\r$\n!define COMPANY $\"$Comp$\""
    FileWrite $1 "$\r$\n!define COMMENT $\"$Comment$\""
+   FileWrite $1 "$\r$\nOutFile $\"$DESKTOP\$Name.exe$\""
 FileClose $1
-FileOpen $0 "features.nsh" w
+FileOpen $0 "..\template\features.nsh" w
    ${Switch} $mlcad
       ${Case} '1'
          
@@ -180,4 +191,5 @@ ${Switch} $Pov64
       ${break}
    ${EndSwitch}
    FileClose $0
+ExecWait "$PROGRAMFILES\NSIS\makensis.exe ..\template\template.nsi"
 SectionEnd
