@@ -19,8 +19,11 @@
 !include "MUI.nsh"
 !include "LogicLib.nsh"
 !define MUI_ICON "icons\happy.ico"
+!define MUI_INSTFILESPAGE_FINISHHEADER_TEXT "Please wait while your installer is being made."
+!define MUI_INSTFILESPAGE_FINISHHEADER_SUBTEXT " "
 Outfile "CLPG.exe"
 InstallButtonText "Generate"
+Caption "The Custom LDraw Wizard"
 Page Custom Page1
 LangString PAGE1_TITLE ${LANG_ENGLISH} "Package Info."
 LangString PAGE1_SUBTITLE ${LANG_ENGLISH} "Please enter information about your package."
